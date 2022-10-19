@@ -18,7 +18,7 @@ type ProductIdentity = (ProductName,CirCycle,CirProb)
 type ProductName = String
 type CirCycle = String
 type AssetChar = [String]
-type Symptons2 = String
+type AssetChar2 = String
 type CircuType = String
 type SystemDate = String
 type DateReg = String
@@ -138,26 +138,33 @@ insert_prodreg = do clearScreen
 
 
 -- Functions that load the table of Circular Product Registered (from TXT files )
+loadTab_cirasset :: IO [AssetReg]
 loadTab_cirasset = do s <-readFile "circularproductregistered.txt"
                       return (gerlist_cirasset (map words (lines s)))
 
+gerlist_cirasset :: [[ProductName]] -> [AssetReg]
 gerlist_cirasset [] = []
 gerlist_cirasset ([n,d,p]:xs) = ((n::ProductName,split d::AssetChar,p::SystemDate)::AssetReg):(gerlist_cirasset xs)
 
+print_lst_cirproduct :: [([Char], [[Char]], [Char])] -> [Char]
 print_lst_cirproduct [] =""
-print_lst_cirproduct ((n,d,p):xs) = "Product Name = " ++ n ++ ", Product Characteristic = [ " ++ print_symptons_each d ++ "], Registration Date = " ++ p ++ "\n"  ++ (print_lst_cirproduct xs) 
+print_lst_cirproduct ((n,d,p):xs) = "Product Name = " ++ n ++ ", Product Characteristic = [ " ++ print_char_each d ++ "], Registration Date = " ++ p ++ "\n"  ++ (print_lst_cirproduct xs) 
 
+gerlist_circutype :: [[ProductName]] -> [AssetReg]
 gerlist_circutype [] = []
 gerlist_circutype ([n,d,p]:xs) = ((n::ProductName,split d::AssetChar,p::SystemDate)::AssetReg):(gerlist_cirasset xs)
 
+loadTab_circularproduct :: IO [CircuProduct]
 loadTab_circularproduct = do s <-readFile "circularproduct.txt"
                              return (gerlist_circuproduct (map words (lines s)))
 
+gerlist_circuproduct :: [[ProductName]] -> [CircuProduct]
 gerlist_circuproduct [] = []
 gerlist_circuproduct ([n,c,d,p]:xs) = ((n::ProductName,c::CirCycle,split d::AssetChar,p::CircuType)::CircuProduct):(gerlist_circuproduct xs)
 
 
 -- Function that loads the table of Product/ Asset Circular Type -> Based on the table of Product Asset Circular Database.
+loadTab_circuType :: Monad m => [AssetReg] -> [CircuProduct] -> m [AssetRegistered]
 loadTab_circuType p d = do return (isCircuType p d)
 
 isCircuType :: [AssetReg] -> [CircuProduct] -> [AssetRegistered]
@@ -168,34 +175,42 @@ isCircuType ((xn,xd,xp):xs) y = if (circuTypeMax_list (circuTypecompareAssetChar
 
 
 -- Functions to Print Product/ Asset Circular Registered Tables
+print_lst_circuproduct :: [([Char], [Char], [[Char]], [Char])] -> [Char]
 print_lst_circuproduct [] =""
-print_lst_circuproduct ((n,c,d,p):xs) = "Product = " ++ n ++ ", Cycle Category = " ++ c ++ ", Prod. Characteristic = [ " ++ print_symptons_each d ++ "], Circular Cat. = " ++ p ++ "\n" ++ (print_lst_circuproduct xs)
+print_lst_circuproduct ((n,c,d,p):xs) = "Product = " ++ n ++ ", Cycle Category = " ++ c ++ ", Prod. Characteristic = [ " ++ print_char_each d ++ "], Circular Cat. = " ++ p ++ "\n" ++ (print_lst_circuproduct xs)
 
+print_lst_circutype :: Day -> [([Char], [Char], String)] -> [Char]
 print_lst_circutype date [] =""
 print_lst_circutype date ((n,c,e):xs) = if ( (diffDays date (parseDay e)) < 0) then "Product = " ++ n ++ ", Date Registered = " ++ c ++ "\n" ++ (print_lst_circutype date xs) else (print_lst_circutype date xs)
 
+print_lst_circutype_newDate_still :: Day -> [([Char], [Char], String)] -> [Char]
 print_lst_circutype_newDate_still date [] =""
 print_lst_circutype_newDate_still date ((n,c,e):xs) = if ( (diffDays date (parseDay e)) <= 0) then "Product = " ++ n ++ ", Date Registered = " ++ c ++ "\n" ++ (print_lst_circutype_newDate_still date xs) else (print_lst_circutype_newDate_still date xs)
 
+print_lst_circutype_newDate_out :: Day -> [([Char], [Char], String)] -> [Char]
 print_lst_circutype_newDate_out date [] =""
 print_lst_circutype_newDate_out date ((n,c,e):xs) = if ( (diffDays date (parseDay e)) >= 0) then "Product = " ++ n ++ ", Date Registered = " ++ c ++ "\n" ++ (print_lst_circutype_newDate_out date xs) else (print_lst_circutype_newDate_out date xs)
 
 
 -- Function that counts the number of Selected Product or Asset Circular Type
+count_circuType :: Num a1 => [a2] -> a1
 count_circuType [] = 0
 count_circuType (x:xs) = 1 + count_circuType xs
 
 
 -- Function that converts a STRING to [STRING] (entering symptoms separated by commas in a LIST)
+split :: [Char] -> [[Char]]
 split str = case break (==',') str of
                 (a, ',':b) -> a : split b
                 (a, "")    -> [a]
 
-print_symptons_each [] = ""
-print_symptons_each (x:xs) = x ++ ", " ++ print_symptons_each xs
+print_char_each :: [[Char]] -> [Char]
+print_char_each [] = ""
+print_char_each (x:xs) = x ++ ", " ++ print_char_each xs
 
 
 -- Function that loads the TXT with the current system date
+load_date :: IO Day
 load_date = do s <-readFile "datesystem.txt"
                return (parseDay s)
 
@@ -264,7 +279,7 @@ main = do list_cirasset <- loadTab_cirasset
                                       let newlist = print_lst_circutype_newDate_out newdate list_circularproduct_registered
                                       if (newlist == "") then putStr(" - No Product/Asset within this Category.\n") else putStr(newlist)
 
-          else if (resp=="9") then do putStr("\nProduct Circular Infographic {" ++ graph list_cirasset list_circularproduct ++"\n}\n")                                 
+          else if (resp=="9") then do putStr("\n ** Product Circular Recommender Infographic ** \n" ++ graph list_cirasset list_circularproduct ++"\n ** Circular Recommender **\n")                                 
 
           else error "Selected Option Not Found \n"
 
