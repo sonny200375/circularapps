@@ -1,0 +1,5 @@
+Degraded-Battery-Bank	    Used-product,Leakage,deterioriate	                    2022-10-09
+No-Liquid-Battery-Bank	    Used-product,no-liquid	                                2022-10-09
+Exp-Produced-Water	        Waste-Water,Exploration-Waste,Natural-Water	            2022-10-10
+Exp-Chemical-Stimulation	Used-product,Waste-Chemical,Exploration-Waste        	2022-10-10
+Water-Distribution-Pump     Used-product,shaft-damaged,gasket-damaged               2022-10-15

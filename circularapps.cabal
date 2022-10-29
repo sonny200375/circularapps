@@ -1,21 +1,24 @@
 cabal-version:      2.4
 name:               circularapps
 version:            0.1.0.0
-
--- A short (one-line) description of the package.
--- synopsis: CIRCULAR ASSET TRACKING AND RECOMMENDER MANAGEMENT SYSTEM
-
--- A short (one-line) description of the package.
--- synopsis: CIRCULAR ASSET TRACKING AND RECOMMENDER MANAGEMENT SYSTEM 
-
--- A longer description of the package.
--- description: Circular Product/ Asset Tracking and Recommender System is Application to Tracked
+-- A short (one-line) Description of the Package :
+-- synopsis: PRODUCT CIRCULAR ECONOMY TRACKING & ReSOLVE RECOMMENDER MANAGEMENT SYSTEM
+-- Developer : Sonny Dhamayana, ST PGAIDL PG Cloud Computing Cert Dipl Blockchain Technology Development
+-- A Longer Description of the Package :
+-- Description: Circular Product/ Asset Tracking and Recommender System is Application to Tracked
 -- Product/ Asset as part circular economy sustainability strategy.
--- Circular Asset Category, Characteristic, and Recommended Circular Strategy will be saved in  "circularproduct.txt" file
--- Product/ Asset which will feed through data entry and save in "circularproduct.txt" file which contain product name, characteristic, and date of registered
--- Further Application will check and validate the product/ asset through comparation with Circular Asset Database to identify the recommended strategy
--- Future ongoing works : integration with IPFS, Integration with Live Stream IoT (CCTV and UT Scanner) based AI Material Classification Model,
---                        Front End Development in Web3/ Android/ IOS, Integration with Carbon Emission Equivalency Package
+-- Circular Asset Main Database which contains of Circular Asset Category, Asset Materials Characteristic, 
+-- and Probabability Recommended Circular Strategy will be saved in "circularproductdb.csv" file
+-- Meanwhile as Targeted Product/ Asset  will feed through manual data entry or through Output Insight from 
+-- IoT-AI Classification Models.  And  further will be saved in "productobservation.csv" file.
+-- Product Observation file contain of Product ID, Material Observation Characteristic, and Date of Registered
+-- Further Application will check, evaluate and validate the product/ asset  with Circular Asset Main Database
+-- to identify the Recommended Sustainability Circular Strategy
+-- Future ongoing works : Integration with IPFS-Inter Planetary File System, 
+--                        Integration with Live Stream IoT-CCTV Live Images  based AI Material Classification Model,
+--                        Integration with Live Stream IoT-UT Scanner based AI Material Classification Model,
+--                        Front End Development in Web3/ Android/ IOS, 
+--                        Integration with Carbon Emission Equivalency Package
 
 -- A URL where users can report bugs.
 -- bug-reports: Bugs report could send through github comments or email sonny.dhamayana@gmail.com

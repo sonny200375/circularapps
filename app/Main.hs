@@ -93,22 +93,23 @@ circularproductMax_listGraph ((n1,s1,c1,q1,v1):(n2,s2,c2,q2,v2):xs) = if (c1 > c
 parseDay :: String -> Day
 parseDay s = parseTimeOrError True defaultTimeLocale "%Y-%m-%d" s
 
--- ******************************************
--- Functions to Register Circular Economy Product/Asset Database 
--- https://ipfs.io/ipfs/QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH?filename=circularproduct.txt
+-- Functions to Upadate Global Circular Economy Product Main Database 
+-- https://ipfs.io/ipfs/QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH?filename=GlobalCircularProductMainDB.csv
 insert_cirprod :: IO()
-insert_cirprod = do clearScreen 
-                    putStr "********************************************"
-                    putStr "** Circular Product Database Registration **"
-                    putStr "********************************************"
-                    putStrLn(" \n")
+insert_cirprod = do clearScreen
+                    now <- getCurrentTime
+                    let (year, month, day) = toGregorian $ utctDay now 
+                    putStrLn "*************************************************"
+                    putStrLn "** Circular ReSOLVE Main Database Registration **"
+                    putStr ("**       Current System Date: " ++ show day ++ "-" ++ show month ++ "-" ++ show year ++ "       **\n")                    
+                    putStr ("*************************************************\n")
                     putStr "Product Name: (xxxx-xxxx-xxxx) \n"
                     n <- getLine
                     putStr "Product Cycles Category: (1-Biological 2-Technical) \n"
                     c <- getLine
                     putStr "Product Characteristic: (xxxxx,xxxxx,....,xxxx)  \n"
                     d <- getLine
-                    putStr "Circular Category: (1-New Product, 2-Reused/Refurbished , 3-Recycle) \n"
+                    putStr "Circular ReSOLVE Framework: (1-Regenerate, 2-Share , 3-Optimise, 4-Loop, 5-Virtualise, 6-Exchange) \n"
                     p <- getLine
                     --appendFile "https://ipfs.io/ipfs/QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH?filename=circularproduct.txt" (n ++ "\t" ++ c ++ "\t" ++ d ++ "\t" ++ p ++ "\n")
                     appendFile "circularproduct.txt" (n ++ "\t" ++ c ++ "\t" ++ d ++ "\t" ++ p ++ "\n")
@@ -198,7 +199,7 @@ count_circuType [] = 0
 count_circuType (x:xs) = 1 + count_circuType xs
 
 
--- Function that converts a STRING to [STRING] (entering symptoms separated by commas in a LIST)
+-- Function that converts a STRING to [STRING] (entering product characteristic separated by commas in a LIST)
 split :: [Char] -> [[Char]]
 split str = case break (==',') str of
                 (a, ',':b) -> a : split b
@@ -231,21 +232,21 @@ main = do list_cirasset <- loadTab_cirasset
           now <- getCurrentTime
           let (year, month, day) = toGregorian $ utctDay now
           list_circularproduct_registered <- loadTab_circuType list_cirasset list_circularproduct         
-          putStrLn(" ")
-          putStrLn "************************************************************************************"     
-          putStrLn "**        PRODUCT CIRCULAR ECONOMY TRACKING & RECOMMENDER MANAGEMENT SYSTEM       **"
-          putStrLn "** IoT - AI Data Analytics (CCTV Live Image & UT Scanned) - Blockchain Technology **"
-          putStrLn "************************************************************************************"
-          putStr ("[ Current System Date: " ++ show day ++ "-" ++ show month ++ "-" ++ show year ++ " ]\n")
-          putStr "[1] Add Circular Product/Asset Database \n"
-          putStr "[2] Add Product/Asset Registered ->> Future Input through IoT-AI Material Classification \n"
-          putStr "[3] List All Circular Product/Asset Database \n"
-          putStr "[4] List All Product/Asset Registered \n"
-          putStr "[5] List of Top 3 (Three) Circular Product Registered \n"
-          putStr "[6] Counting Total Product in Recycle Category \n"
-          putStr "[7] Search for Product Items \n"
-          putStr "[8] Updated Date System \n"
-          putStr "[9] Infographic ->> Future Insight on Web3 Android IOS dApps \n"
+          putStrLn "***********************************************************************************************************"     
+          putStrLn "**               PRODUCT CIRCULAR ECONOMY TRACKING & ReSOLVE RECOMMENDER MANAGEMENT SYSTEM               **"
+          putStrLn "**   IoT - AI Data Analytics (CCTV Live Image & UT Scanned) - On Chain Off Chain Blockchain Technology   **"
+          putStrLn "**           Developer : Sonny Dhamayana (On Chain - Off Chain - AI Data Analytics Backend)              **" 
+          putStr ("**                                              " ++ show day ++ "-" ++ show month ++ "-" ++ show year ++ "                                               **\n")                    
+          putStr "***********************************************************************************************************\n"
+          putStr "[1] Update Circular ReSOLVE Main Database \n"
+          putStr "[2] Add Product/Asset tobe Verified ->> Future Input through IoT-AI Material Classification \n"
+          putStr "[3] Display List of Product from Circular ReSOLVE Main Database \n"
+          putStr "[4] List All Product/Asset tobe Verified  \n"
+          putStr "[5] Display of Top 3 (Three) List Verified Circular Product \n"
+          putStr "[6] Counting Total Product in Regenerate Category \n"
+          putStr "[7] Search for ReSOLVE Product \n"
+          putStr "[8] Updated System DateTime \n"
+          putStr "[9] Circular ReSOLVE Recommender Infographic ->> Future Insight on Web3 Android IOS dApps \n"
           putStr "Option Selection: \n"
           resp <- getLine
           if (resp=="1") then do insert_cirprod
@@ -259,7 +260,7 @@ main = do list_cirasset <- loadTab_cirasset
           else if (resp=="5") then do let resul = print_lst_circutype current_data list_circularproduct_registered
                                       if (resul == "") then putStr("\n No Circular Product in List Registered!\n") else putStr(resul)
 
-          else if (resp=="6") then do putStr("Total Circular Product in Recycle Category: ")
+          else if (resp=="6") then do putStr("Total Circular Product in Regenerate Category: ")
                                       print(count_circuType list_circularproduct_registered)
 
           else if (resp=="7") then do putStr "Search Product Name: \n"
@@ -279,7 +280,7 @@ main = do list_cirasset <- loadTab_cirasset
                                       let newlist = print_lst_circutype_newDate_out newdate list_circularproduct_registered
                                       if (newlist == "") then putStr(" - No Product/Asset within this Category.\n") else putStr(newlist)
 
-          else if (resp=="9") then do putStr("\n ** Product Circular Recommender Infographic ** \n" ++ graph list_cirasset list_circularproduct ++"\n ** Circular Recommender **\n")                                 
+          else if (resp=="9") then do putStr("\n ** Circular ReSOLVE Recommender Infographic ** \n" ++ graph list_cirasset list_circularproduct ++"\n ** Circular Recommender **\n")                                 
 
           else error "Selected Option Not Found \n"
 

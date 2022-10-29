@@ -1,0 +1,6 @@
+Exp-Produced-Water	           Biological   Waste-Water,Exploration-Waste,Natural-Water	   3-Recycle
+Degraded-Battery-Bank          Technical	Used-product,Leakage,damaged,malfunctioned	   3-Recycle
+No-Liquid-Battery-Bank         Biological	no-liquid,Used-product                         2-Reused/Refurbished
+Exp-Chemical-Stimulation       Biological	Used-product,Waste-Chemical,Exploration-Waste  3-Recycle
+Water-Distribution-Pump        Technical	Used-product,shaft-damaged,gasket-damaged      2-Refurbished
+Obsoluscense-Flow-Transmitter  Technical	used-asset,obsoluscences-asset	               3-Recycle
